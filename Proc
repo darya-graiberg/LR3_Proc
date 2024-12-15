@@ -1,0 +1,45 @@
+import java.util.Scanner;
+
+public class CompoundInterestCalculator {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Вычисление сложного процента
+        System.out.print("Введите начальную сумму (число 1): ");
+        double principal = scanner.nextDouble();
+
+        System.out.print("Введите процентную ставку (в процентах): ");
+        double rate = scanner.nextDouble();
+
+        System.out.print("Введите количество периодов: ");
+        int periods = scanner.nextInt();
+
+        double finalAmount = calculateCompoundInterest(principal, rate, periods);
+        System.out.printf("Конечная сумма после %d периодов: %.2f%n", periods, finalAmount);
+
+        // Обратное действие: нахождение процентной ставки
+        System.out.print("Введите конечную сумму (число 2): ");
+        double finalAmountInput = scanner.nextDouble();
+
+        double requiredRate = calculateRequiredRate(principal, finalAmountInput, periods);
+        System.out.printf("Необходимая процентная ставка для достижения %.2f: %.2f%%%n", finalAmountInput, requiredRate);
+    }
+
+    // Метод для вычисления сложного процента
+    private static double calculateCompoundInterest(double principal, double rate, int periods) {
+        double amount = principal * Math.pow(1 + rate / 100, periods);
+        return amount;
+    }
+
+    // Метод для нахождения необходимой процентной ставки
+    private static double calculateRequiredRate(double principal, double finalAmount, int periods) {
+        if (principal <= 0 || finalAmount <= 0 || periods <= 0) {
+            throw new IllegalArgumentException("Все входные значения должны быть положительными.");
+        }
+
+        // Формула для нахождения процентной ставки
+        double rate = (Math.pow(finalAmount / principal, 1.0 / periods) - 1) * 100;
+        return rate;
+    }
+}
